@@ -1,25 +1,27 @@
 #!/usr/bin/env bash 
-
-
 echo '--------------------------------------------------------------------------------'
 echo 'Setting up the local development environment.'
 
 echo 'Setting local variables'
 
 echo 'Adding Aliases'
-alias create_scratch_org=''
+#alias build_node_app=''
 
 echo 'Defining Functions'
+function build_node_app(){
+    pushd ./apps/simple_node_app
+    # Note: For day to day development, leverage tags on your apps.
+    # e.g. docker build -t node_app:0.0.1 . 
+    docker build -t simple_node_app .
+    popd
+}
 
 function k_help(){
     local msg=$(cat << EOM
-|-- Manage Orgs ---------------------------------------------------------------|
+|-- Manage Apps ---------------------------------------------------------------|
 | Function           | Purpose                                                 |
 |--------------------|---------------------------------------------------------|
-| login              | Log in to the Dev Hub org via the Web Flow.             | 
-| create_scratch_org | Create a scratch org.                                   | 
-| open_scratch       | Open the scratch org in a browser.                      | 
-| list_orgs          | List all connected orgs.                                | 
+| build_node_app     | Creates a Docker image for the example Node.js app.     | 
 --------------------------------------------------------------------------------
 EOM
 )

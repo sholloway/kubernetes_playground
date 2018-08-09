@@ -1,0 +1,41 @@
+# Pod configuration for app/simple_node_app.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    run: simple-node-app
+  name: simple-node-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: simple-node-app-exposed
+  template:
+    metadata:
+      labels:
+        run: simple-node-app-exposed
+    spec:
+      containers:
+      - image: localhost:5000/simple_node_app
+        name: simple-node-app
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+
+---
+
+# APP SERVICE
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    run: simple-node-app
+  name: simple-node-app
+spec:
+  ports:
+  - port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    run: simple-node-app-exposed
+  type: NodePort
